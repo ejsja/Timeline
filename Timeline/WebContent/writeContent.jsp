@@ -9,8 +9,8 @@
 </head>
 <body>
 	<%
-		String id = request.getParameter("id");
-		String passwd = request.getParameter("passwd");
+		String id = (String)session.getAttribute("id");
+		String content = request.getParameter("content");
 		
 		try {
 			String driver = "oracle.jdbc.driver.OracleDriver";							 			
@@ -23,25 +23,25 @@
 			Connection conn = DriverManager.getConnection(url, db_id, db_pw);
 			//conn.setAutoCommit(false);
 			Statement st = conn.createStatement();
-			String countSql = "select count(*) from user_info";
+			String countSql = "select count(*) from content";
 			ResultSet rs = st.executeQuery(countSql);
 			rs.next();
-			int userCount = rs.getInt("COUNT(*)") + 1;
-			
-			String sql = "insert into user_info (user_number, id, passwd) values (" + userCount + ", '" + id + "', '" + passwd + "')";
-			st.executeUpdate(sql);		
-			
+			int contentCount = rs.getInt("COUNT(*)") + 1;
+						
+			String sql = "insert into content values (" + contentCount + ", '" + content + "', sysdate, 'N', '')";
+			st.executeUpdate(sql);
+									
 			//st.executeQuery("commit");
-			conn.close();
 			st.close();
 			rs.close();
+			conn.close();
 			
-			response.sendRedirect("index.jsp");			
+			response.sendRedirect("main.jsp");			
 			
 		} catch (Exception e) {
 			out.println(e);
-		}	
-		
+		}
+	
 	%>
 </body>
 </html>

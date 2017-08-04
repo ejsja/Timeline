@@ -1,10 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"
 	import = "java.sql.*"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>TIMELINE</title>
 </head>
 <body>
@@ -21,6 +21,7 @@
 			String db_pw = "test";
 			
 			Connection conn = DriverManager.getConnection(url, db_id, db_pw);
+			//conn.setAutoCommit(false);
 			Statement st = conn.createStatement();
 			String sql = "select * from user_info where id = '" + id + "' and passwd = '" + passwd + "'";
 			st.executeUpdate(sql);
@@ -38,8 +39,12 @@
 				response.sendRedirect("main.jsp");
 			} else {				
 				%> <script> alert("로그인 실패"); history.go(-1);</script> <%
-			}			
+			}
 			
+			//st.executeQuery("commit");
+			conn.close();
+			st.close();
+			rs.close();
 			
 		} catch (Exception e) {
 			out.println(e);
