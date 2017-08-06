@@ -36,7 +36,7 @@
 			if(isLogin){
 				session.setAttribute("id", id);
 				session.setAttribute("passwd", passwd);
-				response.sendRedirect("main.jsp");
+				response.sendRedirect("index.jsp");
 			} else {				
 				%> <script> alert("로그인 실패"); history.go(-1);</script> <%
 			}
